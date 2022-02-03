@@ -1,0 +1,6 @@
+Start simulations by running main_simu.m
+
+Scripts:
+main_simu.m - main script to define/load array of food availabilites (fArr) and temperatures (currently T is read from a csv. file), and run the simulations
+energy_budget.m - computes model predictions, i.e. runs ODE solver
+dydt_KDEB.m - DEB model differential equations
