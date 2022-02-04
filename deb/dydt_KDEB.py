@@ -18,7 +18,7 @@ def dydt_KDEB(t, EVHR, aux, p, EVHR_):
 
     if "tT" in aux:
         # T = spline1(t, aux["tT"])
-        Tf = interp1d(aux["tT"][:, 0], aux["tT"][:,1], kind="slinear")
+        Tf = interp1d(aux["tT"][:, 0], aux["tT"][:,1], kind="zero")
         T = Tf(t)
     else:
         T = aux["T"] + 273.15
@@ -26,7 +26,7 @@ def dydt_KDEB(t, EVHR, aux, p, EVHR_):
 
     if "tf" in aux:
         # f = spline1(t, aux["tf"])
-        ff = interp1d(aux["tf"][:, 0], aux["tf"][:,1], kind="slinear")
+        ff = interp1d(aux["tf"][:, 0], aux["tf"][:,1], kind="zero")
         f = ff(t)
     else:
         f = aux["f"]
@@ -42,7 +42,7 @@ def dydt_KDEB(t, EVHR, aux, p, EVHR_):
     p_XmT = p_AmT / p["kap_X"]
 
     if E_H < p["E_Hb"]:
-        pX = 0 # embryo stage -> f=0
+        pX = 0  # embryo stage -> f=0
     else:
         pX = f * p_XmT * V**(2/3)
 

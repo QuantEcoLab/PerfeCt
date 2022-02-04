@@ -102,8 +102,8 @@ def plot_res(f_rez, species, location, aux, save=False):
     axs_1t.plot(aux["tT"][:, 1]-k0, "--")
     axs_1t.set_ylabel("Temp [°C]")
 
-    axs[0].legend(legend_labels)
-    axs[1].legend(legend_labels)
+    axs[0].legend(legend_labels, title="Food availability")
+    axs[1].legend(legend_labels, title="Food availability")
     fig.tight_layout()
     if save:
         loc_string = location.replace("Temp_", "").replace(".csv", "")
