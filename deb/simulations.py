@@ -21,6 +21,7 @@ fArr = np.array([0.25, 0.5, 1])
 
 aux = {}
 
+
 def simulate(
         species,
         location,
@@ -39,7 +40,6 @@ def simulate(
     returns:
         f_rez: dictionary containing DEB simulations for ever fArr
     """
-
 
     Envfname = location
     tT = pd.read_csv("data/"+Envfname, usecols=(0, 2)).values
