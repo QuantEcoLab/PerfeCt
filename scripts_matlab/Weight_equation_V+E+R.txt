@@ -1,0 +1,20 @@
+# Wet weight = wet/dry weight ratio * [weight of structure + weight of (reserve + repro buffer)]
+
+Ww = ( w * (d_V * V + w_E / mu_E * (E + R)) )
+
+State variables:
+V - structure (cm^3)
+E - energy in reserve (J)
+R - energy in repro buffer (J)
+
+Parameters
+ - d_V, w_E and mu_E set to default DEB values
+ - w set to average value for fish (ratio of 5 = 20% of dry weight)
+
+d_V     0.2         # g/cm^3, specific density of structure (dry weight)
+w_E     23.9000     ; g/mol
+mu_E    550000      ; J/mol
+w       5           ; wet / dry weight coefficient
+
+
+
