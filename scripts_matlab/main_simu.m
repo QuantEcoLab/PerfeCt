@@ -14,7 +14,7 @@
 %---------------------------------------------------------------
 clear all
 global aux
-load('allstat');      % load all DEB parameters for all species
+load('allStat');      % load all DEB parameters for all species
 species_names = {'Sparus_aurata', 'Dicentrarchus_labrax', 'Scophthalmus_maximus'};  % define species of interest
 initial_sizes = [5 5 5];  % define initial length each of farmed fished
 file_names = {'Temp_Vrgada.csv', 'Temp_Ston.csv'};         % temperature files 
@@ -63,6 +63,7 @@ for i = 1:length(file_names)
      ylabel('temp, °C'); ylim([10 30]);
     
     fdnames = fieldnames(simu_KDEB);
+    disp(fdnames);
     cmp = colormap(lines);
     for k = 1 : length(fdnames)
      str = num2str(fArr(k));

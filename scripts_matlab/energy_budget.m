@@ -27,7 +27,6 @@ IC = aux.IC;
 % tArr = data(~isnan(data(:,1)));
 tmax = max(tArr); % simulation time
 tc = tArr(1); % set current time to initial time
-
 rezTmp = []; % initialize outputs
 while tc < tmax        % while loop is used to loop for each year and account for reproduction each year
       i = i + 1;       % spawning every year
@@ -36,6 +35,7 @@ while tc < tmax        % while loop is used to loop for each year and account fo
         tnext  = tmax;
       end
       t = tArr(tArr >= tc & tArr <= tnext,1); % select times for each year (1-365, 365-730, etc.)
+      disp(t)
       options = odeset; % (options, 'Events', @Ezero); % add an events
       [time, EVHR] = ode45(@dydt_KDEB, t, IC, options, p);  % RUN DIFFERENTIAL EQUATION SOLVER TO CALCULATE STATE VARIABLES
       rezTmp = [rezTmp; [time,EVHR]];  % append to output

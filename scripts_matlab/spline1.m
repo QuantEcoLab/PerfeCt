@@ -51,6 +51,7 @@ function [y, dy, index] = spline1(x, knots, Dy1, Dyk)
   % derivatives right of knot-abcissa
   Dy =[(knots(2:nk,2) - knots(1:nk-1,2)) ./ ...
        (knots(2:nk,1) - knots(1:nk-1,1)); Dyk];
+
   for i = 1:nx % loop across abcissa values
     j = 1;
     while x(i) > knots(min(nk,j),1) && j <= nk
@@ -66,3 +67,5 @@ function [y, dy, index] = spline1(x, knots, Dy1, Dyk)
     end
     index(i) = j;
   end
+
+  disp(y);
