@@ -11,81 +11,90 @@ with open(aqua_path,'r') as data_file:
     aqua_data = json.load(data_file)
 
 feature_collection = FeatureCollection(aqua_data['features'])
-#print(feature_collection)
+# print(feature_collection)
 
-dir_paths = [
-    "/mnt/DataDisk/BlueCloud_Hackathon_2022/RAD_podloge/temp_01/",
-    "/mnt/DataDisk/BlueCloud_Hackathon_2022/RAD_podloge/temp_02/",
-    "/mnt/DataDisk/BlueCloud_Hackathon_2022/RAD_podloge/temp_03/",
-    "/mnt/DataDisk/BlueCloud_Hackathon_2022/RAD_podloge/temp_04/",
-    "/mnt/DataDisk/BlueCloud_Hackathon_2022/RAD_podloge/temp_05/",
-    "/mnt/DataDisk/BlueCloud_Hackathon_2022/RAD_podloge/temp_06/",
-    "/mnt/DataDisk/BlueCloud_Hackathon_2022/RAD_podloge/temp_07/",
-    "/mnt/DataDisk/BlueCloud_Hackathon_2022/RAD_podloge/temp_08/",
-    "/mnt/DataDisk/BlueCloud_Hackathon_2022/RAD_podloge/temp_09/",
-    "/mnt/DataDisk/BlueCloud_Hackathon_2022/RAD_podloge/temp_10/",
-    "/mnt/DataDisk/BlueCloud_Hackathon_2022/RAD_podloge/temp_11/",
-    "/mnt/DataDisk/BlueCloud_Hackathon_2022/RAD_podloge/temp_12/"
-]
+dir_path = "/run/user/1000/gvfs/ftp:host=cadaptcloud.local/CADAPT/DATA/BlueCloudHackathon_DATA"
 
-#dir_paths = [dir_paths[0]]
+files = list(pathlib.Path(dir_path).glob("**/*.nc"))
+files.sort()
+
+rcps = ["rcp45", "rcp85"]
+rcp45 = []
+rcp85 = []
+rcp45_st = []
+rcp85_st = []
+for i in files:
+    if rcps[0] in i.stem:
+        rcp45.append(i)
+        rcp45_st.append(i.stem)
+    elif rcps[0] in i.stem:
+        rcp85.append(i)
+        rcp85_st.append(i.stem)
+
+idx = np.argsort(rcp45_st)
+rcp45 = np.asarray(rcp45)[idx]
+idx = np.argsort(rcp85_st)
+rcp85 = np.asarray(rcp85)[idx]
+
+
+for i in rcp45:
+    print(i.stem)
+
 last_id = None
 
-for dir_path in dir_paths:
-    files = list(pathlib.Path(dir_path).glob(r"*.nc"))
-    files.sort()
-    #files = [files[0]]
-    for file in files:
-        print(f"Working on {file.stem}")
-        rcp = (file.stem).split("-")[3]
-        year = (file.stem).split("-")[5]
-        month = (file.stem).split("-")[6]
+for file in rcp45:
+    rcp = (file.stem).split("-")[3]
+    year = (file.stem).split("-")[5]
+    month = (file.stem).split("-")[6]
 
-        dataset = nc.Dataset(file)
-        #dataset["time"]
-        #dataset["thetao"]
+    dataset = nc.Dataset(file)
 
-        lons = np.array(dataset["lon"][:], dtype=np.float64)
-        lats = np.array(dataset["lat"][:], dtype=np.float64)
+    lons = np.array(dataset["lon"][:], dtype=np.float64)
+    lats = np.array(dataset["lat"][:], dtype=np.float64)
 
-        depths = np.array(dataset["depth"][:], dtype=np.float64)
-        depth = 10
+    depths = np.array(dataset["depth"][:], dtype=np.float64)
+    depth = 10
 
-        depth_idx = int(np.where(depths==depth)[0])
-        data_10m = np.array(dataset["thetao"][:, depth_idx, :, :])
-        data_10m[data_10m>1e10] = np.nan
+    depth_idx = int(np.where(depths==depth)[0])
+    data_10m = np.array(dataset["thetao"][:, depth_idx, :, :])
+    data_10m[data_10m > 1e10] = np.nan
 
-        # Fill in NaN's...
-        mask = np.isnan(data_10m)
-        data_10m[mask] = np.interp(np.flatnonzero(mask), np.flatnonzero(~mask), data_10m[~mask])
+    # Fill in NaN's...
+    mask = np.isnan(data_10m)
+    data_10m[mask] = np.interp(np.flatnonzero(mask), np.flatnonzero(~mask), data_10m[~mask])
 
-        for feature in feature_collection["features"]:
-            values_loc = []
-            dates = []
-            rcp_types = []
-            #print(feature["properties"]["id"], feature["geometry"]["coordinates"])
-            id_ = feature["properties"]["id"]
-            coords = feature["geometry"]["coordinates"]
+    md = {}
 
-            if id_ != last_id:
-                last_id = id_
-                lon = coords[0]  # 14.323250
-                lat = coords[1]  # 43.847366
+    for feature in feature_collection["features"]:
+        id_ = feature["properties"]["id"]
+        coords = feature["geometry"]["coordinates"]
 
+        if id_ not in md:
+            d = {}
+            d["date"] = []
+            d["temp"] = []
+            md[id_] = d
+        else:
+            d = md[id_]
+
+        if id_ != last_id:
+            last_id = id_
+            lon = coords[0]
+            lat = coords[1]
+
+            idx = (np.abs(lats-lat)).argmin()
+            idy = (np.abs(lons-lon)).argmin()
+            val = data_10m[:, idx, idy]
+            for d in range(val.shape[0]):
+                d["date"].append(f"{year}-{month}-{d+1}")
+                d["temp"].append(val[d])
+
+    for i in md:
+        df = pd.DataFrame(md[i])
+        df.to_csv(f"data/aqua_test_{rcp}-{id_}.csv")
         
 
-                idx = (np.abs(lats-lat)).argmin()
-                idy = (np.abs(lons-lon)).argmin()
-                val = data_10m[:, idx,idy]
-                for d in range(val.shape[0]):
-                    dates.append(f"{year}-{month}-{d+1}")
-                    values_loc.append(val[d])
-                    rcp_types.append(rcp)
+    
+            
 
-        data_dict = {
-            "date": dates,
-            "rcp_scenario": rcp_types,
-            "temp": values_loc
-        }
-        df_out = pd.DataFrame(data_dict)
-        df_out.to_csv(f"aqua_temp_series/temp_aqua_{id_}.csv")
+
