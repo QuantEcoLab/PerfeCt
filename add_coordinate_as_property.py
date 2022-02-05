@@ -1,7 +1,7 @@
 from geojson import FeatureCollection
 import json
 
-path = 'data/points_agua_cro_wgs.geo.json'
+path = 'data/MED_farms.geojson'
 
 with open(path,'r') as data_file:
     data = json.load(data_file)
@@ -16,5 +16,5 @@ for feature in feature_collection["features"]:
     feature["properties"]["coordinates"] = feature["geometry"]["coordinates"]
 
 json_string = json.dumps(feature_collection)
-with open('data/points_aqua_cro_wgs_v2.geo.json', 'w') as outfile:
+with open('data/MED_farms_for_display.geojson', 'w') as outfile:
     outfile.write(json_string)
