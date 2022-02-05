@@ -13,7 +13,7 @@ with open(aqua_path,'r') as data_file:
 feature_collection = FeatureCollection(aqua_data['features'])
 # print(feature_collection)
 
-dir_path = "/run/user/1000/gvfs/ftp:host=cadaptcloud.local/CADAPT/DATA/BlueCloudHackathon_DATA"
+dir_path = "/mnt/DataDisk/BlueCloud_Hackathon_2022/RAD_podloge"
 
 files = list(pathlib.Path(dir_path).glob("**/*.nc"))
 files.sort()
@@ -36,13 +36,14 @@ rcp45 = np.asarray(rcp45)[idx]
 idx = np.argsort(rcp85_st)
 rcp85 = np.asarray(rcp85)[idx]
 
-
-for i in rcp45:
-    print(i.stem)
+rcp_list = np.concatenate((rcp45, rcp85))
 
 last_id = None
+last_rcp = None
 
-for file in rcp45:
+md = {}
+
+for file in rcp_list:
     rcp = (file.stem).split("-")[3]
     year = (file.stem).split("-")[5]
     month = (file.stem).split("-")[6]
@@ -63,8 +64,6 @@ for file in rcp45:
     mask = np.isnan(data_10m)
     data_10m[mask] = np.interp(np.flatnonzero(mask), np.flatnonzero(~mask), data_10m[~mask])
 
-    md = {}
-
     for feature in feature_collection["features"]:
         id_ = feature["properties"]["id"]
         coords = feature["geometry"]["coordinates"]
@@ -77,7 +76,16 @@ for file in rcp45:
         else:
             d = md[id_]
 
+        if rcp != last_rcp:
+            d = {}
+            d["date"] = []
+            d["temp"] = []
+            md[id_] = d
+            
+
         if id_ != last_id:
+            print(f"Working on {file.stem}, {id_}")
+            
             last_id = id_
             lon = coords[0]
             lat = coords[1]
@@ -85,13 +93,13 @@ for file in rcp45:
             idx = (np.abs(lats-lat)).argmin()
             idy = (np.abs(lons-lon)).argmin()
             val = data_10m[:, idx, idy]
-            for d in range(val.shape[0]):
-                d["date"].append(f"{year}-{month}-{d+1}")
-                d["temp"].append(val[d])
+            for t in range(val.shape[0]):
+                d["date"].append(f"{year}-{month}-{t+1}")
+                d["temp"].append(val[t])
 
-    for i in md:
-        df = pd.DataFrame(md[i])
-        df.to_csv(f"data/aqua_test_{rcp}-{id_}.csv")
+            df = pd.DataFrame(md[id_])
+            df.to_csv(f"data/aqua_timeseries/aqua_{rcp}-{id_}.csv")
+
         
 
     
