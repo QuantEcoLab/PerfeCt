@@ -5,8 +5,9 @@ import pandas as pd
 import pathlib
 from geojson import FeatureCollection
 import json
+from tqdm import tqdm
 
-aqua_path = "data/points_fish_cro/points_fish_cro_aqua_wgs84.geo.json"
+aqua_path = "data/MED_farms.geojson"
 with open(aqua_path,'r') as data_file:
     aqua_data = json.load(data_file)
 
@@ -27,7 +28,7 @@ for i in files:
     if rcps[0] in i.stem:
         rcp45.append(i)
         rcp45_st.append(i.stem)
-    elif rcps[0] in i.stem:
+    elif rcps[1] in i.stem:
         rcp85.append(i)
         rcp85_st.append(i.stem)
 
@@ -45,7 +46,7 @@ md = {}
 md["rcp45"] = {}
 md["rcp85"] = {}
 
-for file in rcp_list:
+for file in tqdm(rcp_list):
     print(file.stem)
     rcp = (file.stem).split("-")[3]
     year = (file.stem).split("-")[5]
@@ -68,10 +69,12 @@ for file in rcp_list:
     data_10m[mask] = np.interp(np.flatnonzero(mask), np.flatnonzero(~mask), data_10m[~mask])
 
     for feature in feature_collection["features"]:
-        id_ = feature["properties"]["id"]
+        id_ = feature["properties"]["farm_id"]
         coords = feature["geometry"]["coordinates"]
+        #lon = feature["properties"]["X"]
+        #lat = feature["properties"]["Y"]
 
-        if id_ not in md:
+        if id_ not in md[rcp]:
             d = {}
             d["date"] = []
             d["temp"] = []
