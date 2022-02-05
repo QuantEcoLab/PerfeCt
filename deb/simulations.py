@@ -22,7 +22,7 @@ fArr = np.array([0.25, 0.5, 1])
 aux = {}
 
 
-def simulate(
+def simulate_deb(
         species,
         location,
         fArr=np.array([0.25, 0.5, 1]),
@@ -115,7 +115,7 @@ def plot_res(f_rez, species, location, aux, save=False):
 if __name__ == "__main__":
     for i in species_names:
         for j in file_names:
-            f_rez = simulate(i, j)
+            f_rez = simulate_deb(i, j)
 
             plot_res(f_rez, i, j, aux, save=False)
             print(i, j)
