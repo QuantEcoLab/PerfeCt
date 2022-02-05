@@ -7,3 +7,5 @@ __pycache__
 tmp.zip
 
 *.nc
+
+data/aqua_timeseries/
