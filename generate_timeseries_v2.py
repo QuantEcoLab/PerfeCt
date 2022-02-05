@@ -44,6 +44,7 @@ last_rcp = None
 md = {}
 
 for file in rcp_list:
+    print(file.stem)
     rcp = (file.stem).split("-")[3]
     year = (file.stem).split("-")[5]
     month = (file.stem).split("-")[6]
@@ -76,15 +77,15 @@ for file in rcp_list:
         else:
             d = md[id_]
 
-        if rcp != last_rcp:
-            d = {}
-            d["date"] = []
-            d["temp"] = []
-            md[id_] = d
+        # if rcp != last_rcp:
+        #     d = {}
+        #     d["date"] = []
+        #     d["temp"] = []
+        #     md[id_] = d
             
 
         if id_ != last_id:
-            print(f"Working on {file.stem}, {id_}")
+            #print(f"Working on {file.stem}, {id_}")
             
             last_id = id_
             lon = coords[0]
@@ -98,7 +99,7 @@ for file in rcp_list:
                 d["temp"].append(val[t])
 
             df = pd.DataFrame(md[id_])
-            df.to_csv(f"data/aqua_timeseries/aqua_{rcp}-{id_}.csv")
+            # df.to_csv(f"data/aqua_timeseries/aqua_{rcp}-{id_}.csv")
 
         
 
