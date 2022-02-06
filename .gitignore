@@ -9,4 +9,5 @@ tmp.zip
 *.nc
 
 data/aqua_timeseries/
+data/grid_time_series_1/
 data/grid_time_series/
