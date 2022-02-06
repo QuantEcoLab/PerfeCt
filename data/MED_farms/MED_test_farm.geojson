@@ -1,0 +1,8 @@
+{
+"type": "FeatureCollection",
+"name": "MED_test_farm",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "farm_id": 638, "X": 17.04090568, "Y": 43.11876523, "species": null, "species 1": "lubin (Dicentrarchus labrax)", "species 2": "komarca (Sparus aurata)", "species 3": "hama (Agryrosomus regius)", "species 4": null, "species 5": null, "species 6": null, "species 7": null, "species 8": null, "species 9": null, "species 10": null, "species 11": null, "species 12": null, "species 13": null, "species 14": null, "species 15": null, "species 16": null, "species 17": null, "species 18": null, "species 19": null, "species 20": null }, "geometry": { "type": "Point", "coordinates": [ 17.04090568, 43.11876523 ] } }
+]
+}
