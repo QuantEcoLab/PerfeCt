@@ -10,3 +10,5 @@ tmp.zip
 
 data/aqua_timeseries/
 data/time_series/*
+data/grid_time_series_1/
+data/grid_time_series/

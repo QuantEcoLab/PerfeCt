@@ -18,14 +18,14 @@ rcps = ["rcp4_5", "rcp8_5"]
 
 data = {}
 
-aqua_path = "data/MED_farms.geojson"
+aqua_path = "data/MED_grid/MED_ter_10km_grid_centroids.geojson"
 with open(aqua_path, 'r') as data_file:
     aqua_data = json.load(data_file)
 
 feature_collection = FeatureCollection(aqua_data['features'])
 
 for feature in feature_collection["features"]:
-    id_ = feature["properties"]["farm_id"]
+    id_ = feature["properties"]["CellCode"]
     coords = feature["geometry"]["coordinates"]
     data[id_] = {
         "coords": coords,
@@ -78,7 +78,7 @@ def save_data(data=data):
                 "rcp8_5": data[id_]["rcp8_5"]
             }
         )
-        df.to_csv(f"data/time_series/id_{id_:03d}.csv")
+        df.to_csv(f"data/grid_time_series/id_{id_}.csv")
 
 
 for year in years:
