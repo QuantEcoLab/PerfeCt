@@ -1,0 +1,24 @@
+Name,MarketWeight,InitialSize,InitialWeight,CroName
+Argyrosomus_regius,1200,3.7,3,Hama
+Dentex_dentex,500,,5.6,Zubatac
+Dicentrarchus_labrax,400,7.3,2,Lubin
+Diplodus_puntazzo,180,,2.5,Pic
+Diplodus_sargus,,,,Sarag
+Diplodus_vulgaris,,,,Fratar
+Gadus_morhua,4000,4,5,Bakalar
+Hippoglossus_hippoglossus,,,,Konjski jezik
+Lithognathus_mormyrus,,2,,Ovcica
+Oncorhynchus_mykiss,3000,8,5,Kalifornijska pastrva
+Pagellus_erythrinus,1000,4.5,1.5,Arbun
+Polyprion_americanus,2500,3,0.5,Kirnja glavulja
+Salmo_salar,2000,7,40,Losos
+Salmo_trutta,3000,3,25,Pastrva
+Sarpa_salpa,,,,Salpa
+Sciaena_umbra,,,,Kavala
+Scophthalmus_maximus,2000,,7.5,Romb
+Seriola_dumerili,5000,,,Gof
+Solea_solea,2000,,5,List
+Sparus_aurata,400,1.2,5,Orada
+Thunnus_albacares,30000,,,Žutoperajna tuna
+Thunnus_orientalis,200000,,,Pacifička plavoperajna tuna
+Thunnus_thynnus,30000,75,8000,Atlantska plavoperajna tuna
