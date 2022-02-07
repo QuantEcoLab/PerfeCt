@@ -1,0 +1,24 @@
+,Name,MarketWeight,MarketLength,InitialSize,InitialWeight,CroName,EngName
+1,Argyrosomus_regius,1200,,3.7,3,Hama,Meagre
+2,Dentex_dentex,500,,3,5.6,Zubatac,Common dentex
+3,Dicentrarchus_labrax,400,,7.3,2,Lubin,European bass
+4,Diplodus_puntazzo,180,22,2.6,2.5,Pic,Sheephead bream
+5,Diplodus_sargus,,21,,,Sarag,White seabream
+6,Diplodus_vulgaris,,15,,,Fratar,Common two-banded seabream
+7,Gadus_morhua,4000,,4,5,Bakalar,Atlantic cod
+8,Hippoglossus_hippoglossus,,,,,Konjski jezik,Atlantic halibut
+9,Lithognathus_mormyrus,106,20,2,0.11,Ovcica,Striped seabream
+10,Oncorhynchus_mykiss,3000,,8,5,Kalifornijska pastrva,Rainbow trout
+11,Pagellus_erythrinus,1000,,4.5,1.5,Arbun,Common pandora
+12,Polyprion_americanus,2500,,3,0.5,Kirnja glavulja,Atlantic wreckfish
+13,Salmo_salar,2000,,7,40,Losos,Atlantic salmon
+14,Salmo_trutta,3000,,3,25,Pastrva,Brown trout
+15,Sarpa_salpa,,,,,Salpa,Salema
+16,Sciaena_umbra,492,30,,,Kavala,Brown meagre
+17,Scophthalmus_maximus,2000,,3.2,7.5,Romb,Turbot
+18,Seriola_dumerili,5000,,,,Gof,Greater amberjack
+19,Solea_solea,2000,,5.4,5,List,Common sole
+20,Sparus_aurata,400,,1.2,5,Orada,Gilt-head bream
+21,Thunnus_albacares,30000,,,,Žutoperajna tuna,Yellowfin tuna
+22,Thunnus_orientalis,200000,,,,Pacifička plavoperajna tuna,Pacific bluefin tuna
+23,Thunnus_thynnus,30000,,75,8000,Atlantska plavoperajna tuna,Atlantic bluefin tuna
