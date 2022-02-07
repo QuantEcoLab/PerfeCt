@@ -68,6 +68,8 @@ def dydt_KDEB(t, EVHR, aux, p, EVHR_):
             dH = 0
             dR = np.max((0, (1-p["kap"])*pC - pJ))
 
-        output = [dE, dV, dH, dR]
+        dF = V**(2/3)
+
+        output = [dE, dV, dH, dR, dF]
 
         return output

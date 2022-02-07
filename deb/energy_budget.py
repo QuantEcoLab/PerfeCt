@@ -9,10 +9,11 @@ def energy_budget(aux, p):
     i = 0
     IC = aux["IC"]
     tArr = aux["tArr"]
-    tmax = np.max(tArr)
+    tmax = (np.max(tArr)-(np.max(tArr) % 365))
     tc = tArr[0]
     rezTmp = []
     while tc < tmax-1:
+        # print(tc)
         i += 1
         # print(tc, tmax)
         tnext = int(365*i)
@@ -52,5 +53,5 @@ def energy_budget(aux, p):
     L = np.divide((rezTmp[:, 2]**(1/3)), p["del_M"])
     W = rezTmp[:, 2] * (1+aux["f"]*p["ome"])
 
-    rez = [rezTmp[:, 0], L,  W]
+    rez = [rezTmp[:, 0], L,  W, rezTmp[:,-1]]
     return rez

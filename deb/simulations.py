@@ -17,7 +17,7 @@ species_names = [
 ]
 file_names = ["Temp_Vrgada.csv", "Temp_Ston.csv"]
 
-fArr = np.array([0.25, 0.5, 1])
+fArr = np.array([0.85])
 
 aux = {}
 
@@ -25,7 +25,7 @@ aux = {}
 def simulate_deb(
         species,
         location,
-        fArr=np.array([0.25, 0.5, 1]),
+        fArr=np.array([0.85]),
         initial_size=5,
         allStat=allStat):
 
@@ -41,8 +41,11 @@ def simulate_deb(
         f_rez: dictionary containing DEB simulations for ever fArr
     """
 
-    Envfname = location
-    tT = pd.read_csv("data/"+Envfname, usecols=(0, 2)).values
+    tT = location
+    # tT = pd.read_csv("data/"+Envfname, usecols=(0, 2)).values
+    # tT = location
+    # print(tT)
+    # print(type(tT))
 
     f_rez = {}
     species = species
@@ -65,6 +68,7 @@ def simulate_deb(
                     p["E_Hp"],
                     p["E_Hp"]*((aux["init_L"]*p["del_M"])/p["L_p"]))
                 ),
+            0,
             0]
 
         rez = energy_budget(aux, p)
@@ -96,6 +100,8 @@ def plot_res(f_rez, species, location, aux, save=False):
         axs[0].set_ylabel("Length [cm]")
         axs[1].plot(f_rez[f][2])
         axs[1].set_ylabel("Weight [g]")
+        # axs[1].plot(f_rez[f][3])
+        # axs[1].set_ylabel("FCR")
 
     axs_0t.plot(aux["tT"][:, 1]-k0, "--")
     axs_0t.set_ylabel("Temp [°C]")

@@ -3,16 +3,17 @@ from scipy.integrate import solve_ivp
 import matplotlib.pyplot as plt
 
 
+Tref = 293.15  # Referentna temp
+TA = 8000  # Arrhenius temp
+N0 = 1  # Inicialna konc.
+r = 0.1  # Brzina rasta (log CFU/mL/h)
+K = 4  # Carrying capacity (log CFU/mL)
+
+T = 313.15  # dnevna temperatura
+
+
 
 def dNdt(t, N, T):
-
-    Tref = 293.15  # Referentna temp
-    TA = 8000  # Arrhenius temp
-    N0 = 1  # Inicialna konc.
-    r = 0.1  # Brzina rasta (log CFU/mL/h)
-    K = 4  # Carrying capacity (log CFU/mL)
-
-    T = 313.15  # dnevna temperatura
 
     return (r * N * (1 - (N / K)) * np.exp(TA/Tref - TA/T))
 
