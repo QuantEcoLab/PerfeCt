@@ -7,14 +7,14 @@ from geojson import FeatureCollection
 import json
 from tqdm import tqdm
 
-aqua_path = "data/MED_farms/MED_farms.geojson"
-with open(aqua_path,'r') as data_file:
+aqua_path = "data/MED_grid/MED_ter_10km_grid_centroids.geojson"
+with open(aqua_path, 'r') as data_file:
     aqua_data = json.load(data_file)
 
 feature_collection = FeatureCollection(aqua_data['features'])
 # print(feature_collection)
 
-dir_path = "/mnt/DataDisk/BlueCloud_Hackathon_2022/RAD_podloge/MED_temp_past"
+dir_path = "/mnt/DataDisk/MED_temp_past"
 
 files = list(pathlib.Path(dir_path).glob("**/*.nc"))
 files.sort()
@@ -43,7 +43,7 @@ for file in tqdm(files):
     data_10m[mask] = np.interp(np.flatnonzero(mask), np.flatnonzero(~mask), data_10m[~mask])
 
     for feature in feature_collection["features"]:
-        id_ = feature["properties"]["farm_id"]
+        id_ = feature["properties"]["CellCode"]
         coords = feature["geometry"]["coordinates"]
         #lon = feature["properties"]["X"]
         #lat = feature["properties"]["Y"]
@@ -71,4 +71,4 @@ for file in tqdm(files):
                 d["temp"].append(val[t])
 
             df = pd.DataFrame(md[id_])
-            df.to_csv(f"data/aqua_timeseries_past/aqua_{id_}.csv")
+            df.to_csv(f"data/grid_timeseries_past/id_{id_}.csv")

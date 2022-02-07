@@ -11,11 +11,5 @@ tmp.zip
 data/aqua_timeseries/
 data/time_series/*
 data/grid_time_series_1/
-<<<<<<< HEAD
-data/grid_time_series_2/
-data/grid_time_series_3/
 data/grid_time_series/
-data/aqua_timeseries_past/
-=======
-data/grid_time_series/
->>>>>>> d776866970f4052e8767e846a1827f1ed7541b75
+data/grid_timeseries_past
