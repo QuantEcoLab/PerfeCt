@@ -6,12 +6,6 @@ from scipy.integrate import solve_ivp
 import matplotlib.pyplot as plt
 
 
-data = pd.read_csv("../data/timeseries_past_future/farm_638_past_future.csv")
-
-N_365_221 = data["temp_2021"].values
-N_45 = data["temp_2030_rcp45"].values
-N_85 = data["temp_2030_rcp85"].values
-
 # dN/dt = r * N * (1 - ( N / K) ) * exp(TA/Tref - TA/T)
 # *********************************************************************
 # PARAMETRI PROMJENE BRZINE RASTA
@@ -99,40 +93,50 @@ def calc_DRV(location):
         vibrio_days_rcp45.append(get_DRV(rcp_45_sim))
         vibrio_days_rcp85.append(get_DRV(rcp_85_sim))
 
-    return (vibrio_days_rcp45, vibrio_days_rcp85)
+    vibrio_days_rcp45 = np.asarray(vibrio_days_rcp45)
+    vibrio_days_rcp85 = np.asarray(vibrio_days_rcp85)
+
+    return vibrio_days_rcp45, vibrio_days_rcp85
 
 
-r00 = simulate_scenario(N_365_221)
-r45 = simulate_scenario(N_45)
-r85 = simulate_scenario(N_85)
+if __name__ == "__main__":
 
-print(get_DRV(r00))
-print(get_DRV(r45))
-print(get_DRV(r85))
+    data = pd.read_csv("../data/timeseries_past_future/farm_638_past_future.csv")
+
+    N_365_221 = data["temp_2021"].values
+    N_45 = data["temp_2030_rcp45"].values
+    N_85 = data["temp_2030_rcp85"].values
+
+    r00 = simulate_scenario(N_365_221)
+    r45 = simulate_scenario(N_45)
+    r85 = simulate_scenario(N_85)
+
+    print(get_DRV(r00))
+    print(get_DRV(r45))
+    print(get_DRV(r85))
 
 
-plt.plot(r00)
-plt.plot(r45)
-plt.axhline(2, color="r", linestyle="--")
-plt.show()
+    plt.plot(r00)
+    plt.plot(r45)
+    plt.axhline(2, color="r", linestyle="--")
+    plt.show()
 
-plt.plot(r00)
-plt.plot(r85)
-plt.axhline(2, color="r", linestyle="--")
-plt.show()
+    plt.plot(r00)
+    plt.plot(r85)
+    plt.axhline(2, color="r", linestyle="--")
+    plt.show()
 
-rcp45, rcp85 = calc_DRV("../data/time_series/id_638.csv")
+    rcp45, rcp85 = calc_DRV("../data/time_series/id_638.csv")
 
-colors = []
-for i in rcp45:
-    if i > rcp45[0]:
-        colors.append("red")
-    else:
-        colors.append("green")
+    colors = []
+    for i in rcp45:
+        if i > rcp45[0]:
+            colors.append("red")
+        else:
+            colors.append("green")
 
-fig, ax = plt.subplots()
-# ax.plot(np.arange(2021, 2021+len(rcp45), 1), rcp45, color=colors)
-# ax.plot(np.arange(2021, 2021+len(rcp45), 1), rcp45, "*-")
-ax.stem(rcp45, bottom=rcp45[0])
-ax.set_xlabel("Years")
-ax.set_ylabel("Days with high risk of vibriosis")
+    fig, ax = plt.subplots()
+
+    ax.stem(rcp45, bottom=rcp45[0])
+    ax.set_xlabel("Years")
+    ax.set_ylabel("Days with high risk of vibriosis")
