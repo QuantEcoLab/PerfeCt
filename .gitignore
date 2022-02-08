@@ -12,4 +12,6 @@ data/aqua_timeseries/
 data/time_series/*
 data/grid_time_series_1/
 data/grid_time_series/
-data/grid_timeseries_past
+data/grid_timeseries_past_1/
+data/grid_timeseries_past_2/
+data/grid_timeseries_past/

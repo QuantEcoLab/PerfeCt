@@ -23,7 +23,7 @@ last_id = None
 
 md = {}
 
-for file in tqdm(files):
+for file in tqdm(files[(1129+498):]):
     print(file.stem)
     date = (file.stem).split("-")[0][:-2]
 
@@ -72,3 +72,5 @@ for file in tqdm(files):
 
             df = pd.DataFrame(md[id_])
             df.to_csv(f"data/grid_timeseries_past/id_{id_}.csv")
+    
+    del dataset
