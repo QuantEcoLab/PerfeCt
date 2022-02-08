@@ -28,7 +28,7 @@ def perfect_sim(data_file, species, mi_data):
         ttm45.append(TTM45[0])
 
         inputs85 = np.vstack(
-            (data.index.values+1, data["rcp4_5"].values+273.15)).T[i:i+365*7]
+            (data.index.values+1, data["rcp8_5"].values+273.15)).T[i:i+365*7]
 
         res85 = simulate_deb(
             species, inputs85, initial_size=mi_data["InitialSize"])
