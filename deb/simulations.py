@@ -98,8 +98,10 @@ def plot_res(f_rez, species, location, aux, save=False):
 
         axs[0].plot(f_rez[f][1])
         axs[0].set_ylabel("Length [cm]")
+        axs[0].set_xlabel("Days")
         axs[1].plot(f_rez[f][2])
         axs[1].set_ylabel("Weight [g]")
+        axs[1].set_xlabel("Days")
         # axs[1].plot(f_rez[f][3])
         # axs[1].set_ylabel("FCR")
 

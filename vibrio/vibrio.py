@@ -65,13 +65,13 @@ def get_DRV(simulation):
     return len(simulation[simulation>2])
 
 
-def calc_DRV(location):
+def calc_DRV(location, rcp):
     # find path to location
     refpath = location  # dummy line
     path = location
 
-    ref_data = pd.read_csv(refpath, index_col=0)
-    rcp_data = pd.read_csv(path, index_col=0)
+    ref_data = location
+    rcp_data = location
 
     # change data to reference year 2021 when data becomes available
     ref_365 = ref_data["rcp4_5"].values[:365]
@@ -81,22 +81,20 @@ def calc_DRV(location):
     year_idx = np.arange(0, len(rcp_data), 365)
 
     ref_sim = simulate_scenario(ref_365)
-    
-    vibrio_days_rcp45 = [get_DRV(ref_sim)]
-    vibrio_days_rcp85 = [get_DRV(ref_sim)]
+
+    vibrio_days = []
 
     for i in year_idx[:-1]:
-        # print(i)
-        rcp_45_sim = simulate_scenario(rcp_45[i: i+365])
-        rcp_85_sim = simulate_scenario(rcp_85[i: i+365])
+        if rcp == "RCP4.5":
+            rcp_sim = simulate_scenario(rcp_45[i: i+365])
+        elif rcp == "RCP8.5":
+            rcp_sim = simulate_scenario(rcp_85[i: i+365])
 
-        vibrio_days_rcp45.append(get_DRV(rcp_45_sim))
-        vibrio_days_rcp85.append(get_DRV(rcp_85_sim))
+        vibrio_days.append(get_DRV(rcp_sim))
 
-    vibrio_days_rcp45 = np.asarray(vibrio_days_rcp45)
-    vibrio_days_rcp85 = np.asarray(vibrio_days_rcp85)
+    vibrio_days = np.asarray(vibrio_days)
 
-    return vibrio_days_rcp45, vibrio_days_rcp85
+    return vibrio_days
 
 
 if __name__ == "__main__":
@@ -118,6 +116,7 @@ if __name__ == "__main__":
 
     plt.plot(r00)
     plt.plot(r45)
+    plt.plot(r85)
     plt.axhline(2, color="r", linestyle="--")
     plt.show()
 

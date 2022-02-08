@@ -4,39 +4,42 @@ import numpy as np
 from pathlib import Path
 
 
-def perfect_sim(data_file, species, mi_data):
-    data = pd.read_csv(data_file, index_col=0)
+def perfect_sim(data, species, mi_data , rcp):
+    # data = pd.read_csv(data_file, index_col=0)
 
-    ttm45 = []
-    ttm85 = []
+    ttm = []
+    ttm = []
 
-    fcr45 = []
-    fcr85 = []
+    fcr = []
+    fcr = []
 
     for i in np.arange(0, len(data) - len(data) % 365-365*7, 365):
         # print(i)
-        inputs45 = np.vstack(
-            (data.index.values+1, data["rcp4_5"].values+273.15)).T[i:i+365*7]
+        if rcp == "RCP4.5":
+            inputs = np.vstack(
+                (data.index.values+1, data["rcp4_5"].values+273.15)).T[i:i+365*7]
 
-        res45 = simulate_deb(
-            species, inputs45, initial_size=mi_data["InitialSize"])
+            res = simulate_deb(
+                species, inputs, initial_size=mi_data["InitialSize"])
 
-        TTM45 = np.where(res45[0.85][2] >= mi_data["MarketWeight"])[0]
+            TTM = np.where(res[0.85][2] >= mi_data["MarketWeight"])[0]
 
-        fcr45.append(res45[0.85][-1][TTM45[0]])
+            fcr.append(res[0.85][-1][TTM[0]])
 
-        ttm45.append(TTM45[0])
+            ttm.append(TTM[0])
 
-        inputs85 = np.vstack(
-            (data.index.values+1, data["rcp8_5"].values+273.15)).T[i:i+365*7]
+        elif rcp == "RCP8.5":
 
-        res85 = simulate_deb(
-            species, inputs85, initial_size=mi_data["InitialSize"])
-        # print(res45[0.85][2])
+            inputs = np.vstack(
+                (data.index.values+1, data["rcp8_5"].values+273.15)).T[i:i+365*7]
 
-        TTM85 = np.where(res85[0.85][2] >= mi_data["MarketWeight"])[0]
+            res = simulate_deb(
+                species, inputs, initial_size=mi_data["InitialSize"])
+            # print(res[0.85][2])
 
-        ttm85.append(TTM85[0])
-        fcr85.append(res85[0.85][-1][TTM85[0]])
+            TTM = np.where(res[0.85][2] >= mi_data["MarketWeight"])[0]
 
-    return ttm45, ttm85, fcr45, fcr85
+            ttm.append(TTM[0])
+            fcr.append(res[0.85][-1][TTM[0]])
+
+    return ttm, fcr
