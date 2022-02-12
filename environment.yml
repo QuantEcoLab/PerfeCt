@@ -1,4 +1,4 @@
-name: hackathon
+name: perfect
 channels:
   - conda-forge
   - defaults
