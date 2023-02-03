@@ -8,9 +8,7 @@ def perfect_sim(data, species, mi_data , rcp):
     # data = pd.read_csv(data_file, index_col=0)
 
     ttm = []
-    ttm = []
 
-    fcr = []
     fcr = []
 
     for i in np.arange(0, len(data) - len(data) % 365-365*7, 365):
