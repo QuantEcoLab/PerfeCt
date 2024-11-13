@@ -21,7 +21,6 @@ def perfect_sim(data, species, mi_data , rcp):
                 species, inputs, initial_size=mi_data["InitialSize"])
 
             TTM = np.where(res[0.85][2] >= mi_data["MarketWeight"])[0]
-
             fcr.append(res[0.85][-1][TTM[0]])
 
             ttm.append(TTM[0])
