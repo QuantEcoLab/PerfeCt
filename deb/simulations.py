@@ -102,8 +102,8 @@ def plot_res(f_rez, species, location, aux, save=False):
         axs[1].plot(f_rez[f][2])
         axs[1].set_ylabel("Weight [g]")
         axs[1].set_xlabel("Days")
-        # axs[1].plot(f_rez[f][3])
-        # axs[1].set_ylabel("FCR")
+        axs[1].plot(f_rez[f][3])
+        axs[1].set_ylabel("FCR")
 
     axs_0t.plot(aux["tT"][:, 1]-k0, "--")
     axs_0t.set_ylabel("Temp [°C]")

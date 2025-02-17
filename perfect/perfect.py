@@ -10,7 +10,6 @@ def perfect_sim(data, species, mi_data , rcp):
     ttm = []
 
     fcr = []
-
     for i in np.arange(0, len(data) - len(data) % 365-365*7, 365):
         # print(i)
         if rcp == "RCP4.5":
@@ -20,10 +19,10 @@ def perfect_sim(data, species, mi_data , rcp):
             res = simulate_deb(
                 species, inputs, initial_size=mi_data["InitialSize"])
 
-            TTM = np.where(res[0.85][2] >= mi_data["MarketWeight"])[0]
-            fcr.append(res[0.85][-1][TTM[0]])
+            TTM = np.where(res[0.45][2] >= mi_data["MarketWeight"])[0]
 
             ttm.append(TTM[0])
+            fcr.append(res[0.45][3][TTM[0]])
 
         elif rcp == "RCP8.5":
 
@@ -38,5 +37,6 @@ def perfect_sim(data, species, mi_data , rcp):
 
             ttm.append(TTM[0])
             fcr.append(res[0.85][-1][TTM[0]])
-
+    
+    print(res)
     return ttm, fcr

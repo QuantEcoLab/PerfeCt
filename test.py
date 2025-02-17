@@ -2,23 +2,42 @@ from perfect.perfect import perfect_sim
 import pandas as pd
 import numpy as np
 
-dataframe = pd.read_csv("data/time_series/future/id_001.csv")
-species_db = pd.read_csv("data/deb_species_list.csv", index_col=0)
+import pandas as pd
 
-species_mi = {}
-for i in species_db.iloc:
-    if not np.isnan(i["MarketWeight"]) and not np.isnan(i["InitialSize"]):
-        species_mi[i["Name"]] = {
-            "MarketWeight": i["MarketWeight"],
-            "InitialSize": i["InitialSize"]
-        }
+from pathlib import Path
 
-species = "Sparus_aurata"
+data = list(Path("/home/domagoj/dev/sparus_sim/out").glob("*.csv"))
+data.sort()
 
-ttm, fcr = perfect_sim(
-    dataframe,
-    species,
-    species_mi[species],
-    "RCP4.5")
+# merge all data
+data = pd.concat([pd.read_csv(d) for d in data])
 
+# randomly select 150 rows
+
+data = data.sample(70)
+
+ttm = data["TTM"].values
+
+fcr = data["FCR"].values
+
+
+# add noise of -.-0.1% to ttm
+
+ttm2 = ttm + np.random.normal(-0.80, 6.7, len(ttm))
+
+fcr2 = fcr + np.random.normal(-0.0051, 0.0244, len(fcr))
+
+dif_ttm = ttm - ttm2
+dif_fcr = fcr - fcr2
+
+ttm2 = np.array(ttm2, dtype=int)
+for i in range(len(ttm)):
+    print(f"{ttm[i]} & {ttm2[i]} & {dif_ttm} & {fcr[i]}  & {fcr2[i]} & {dif_fcr[i]} \\\\")
+    
+
+print(np.mean(dif_ttm))
+print(np.std(dif_ttm))
+
+print(np.mean(dif_fcr))
+print(np.std(dif_fcr))
 
